@@ -875,16 +875,19 @@ def main():
                                                         is_secure=False)
         sleep_interval = LOCAL_SLEEP_INTERVAL
     else:
-        if not args.profile:
+        if not args.profile and args.accessKey:
             conn = boto.dynamodb2.connect_to_region(args.region, aws_access_key_id=args.accessKey,
                                                     aws_secret_access_key=args.secretKey)
             sleep_interval = AWS_SLEEP_INTERVAL
-        elif not args.accessKey:
+            print("Use creds")
+        elif not args.profile:
             conn = boto.dynamodb2.connect_to_region(args.region)
             sleep_interval = AWS_SLEEP_INTERVAL
+            print("Use native profile")
         else:
             conn = boto.dynamodb2.connect_to_region(args.region, profile_name=args.profile)
             sleep_interval = AWS_SLEEP_INTERVAL
+            print("Use profile")
 
     # don't proceed if connection is not established
     if not conn:
