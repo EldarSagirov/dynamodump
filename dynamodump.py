@@ -879,6 +879,9 @@ def main():
             conn = boto.dynamodb2.connect_to_region(args.region, aws_access_key_id=args.accessKey,
                                                     aws_secret_access_key=args.secretKey)
             sleep_interval = AWS_SLEEP_INTERVAL
+        elif not args.accessKey:
+            conn = boto.dynamodb2.connect_to_region(args.region)
+            sleep_interval = AWS_SLEEP_INTERVAL
         else:
             conn = boto.dynamodb2.connect_to_region(args.region, profile_name=args.profile)
             sleep_interval = AWS_SLEEP_INTERVAL
