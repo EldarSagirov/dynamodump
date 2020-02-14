@@ -815,6 +815,8 @@ def main():
                         "[required only for local]")
     parser.add_argument("--secretKey", help="Secret key of local DynamoDB "
                         "[required only for local]")
+    parser.add_argument("--securityToken", help="token key of local DynamoDB "
+                        "[required only for local]")
     parser.add_argument("-p", "--profile",
                         help="AWS credentials file profile to use. Allows you to use a "
                         "profile instead accessKey, secretKey authentication")
@@ -875,9 +877,9 @@ def main():
                                                         is_secure=False)
         sleep_interval = LOCAL_SLEEP_INTERVAL
     else:
-        if not args.profile and args.accessKey:
+        if not args.profile and args.accessKey and args.securityToken:
             conn = boto.dynamodb2.connect_to_region(args.region, aws_access_key_id=args.accessKey,
-                                                    aws_secret_access_key=args.secretKey)
+                                                    aws_secret_access_key=args.secretKey, security_token=args.securityToken)
             sleep_interval = AWS_SLEEP_INTERVAL
             print("Use creds")
         elif not args.profile:
