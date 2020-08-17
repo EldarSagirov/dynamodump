@@ -408,7 +408,7 @@ def mkdir_p(path):
             raise
 
 
-@retry(ZeroDivisionError, tries=8, delay=1, backoff=2)
+@retry(tries=8, delay=1, backoff=2)
 def batch_write_with_retry(conn, request_items):
     response  = conn.batch_write_item(request_items)
     return response
