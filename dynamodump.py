@@ -409,10 +409,6 @@ def mkdir_p(path):
 
 
 @retry(tries=8, delay=1, backoff=2)
-def batch_write_with_retry(conn, request_items):
-    response  = conn.batch_write_item(request_items)
-    return response
-
 def batch_write(conn, sleep_interval, table_name, put_requests):
     """
     Write data to table_name
@@ -422,7 +418,7 @@ def batch_write(conn, sleep_interval, table_name, put_requests):
     i = 1
     sleep = sleep_interval
     while True:
-        response = batch_write_with_retry(conn, request_items)
+        response = conn.batch_write_item(request_items)
         unprocessed_items = response["UnprocessedItems"]
 
         if len(unprocessed_items) == 0:
